@@ -1,6 +1,7 @@
 package com.example.app0
 
 import android.os.Bundle
+import android.text.style.BackgroundColorSpan
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -8,10 +9,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import com.example.app0.ui.theme.App0Theme
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.app0.ui.theme.App0Theme
+import androidx.compose.ui.unit.dp
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +38,97 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             App0Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                EventScreen()
             }
         }
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun EventScreen() {
+    Scaffold(
+        topBar = {
+            // TopAppBar with Menu and Heart icons
+            TopAppBar(
+                title = {
+                    Text(text = "Événements")
+                },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Menu"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "Favorite"
+                        )
+                    }
+                }
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.event_image),
+                    contentDescription = "Event Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp)
+                        .padding(top = 20.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Text(text = "24 Oct.", fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(text = "À la rencontre de nos talents")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Où : Ecole ingénieur ISIS")
+                    Text(text = "Quand : 24 octobre")
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Action Buttons
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Button(onClick = { }, modifier = Modifier.weight(1f)) {
+                        Text(text = "Inscription")
+                    }
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Pas intéressé", color = Color.White)
+                    }
+                }
+            }
+        }
     )
 }
 
+
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    App0Theme {
-        Greeting("Android")
-    }
+fun PreviewEventScreen() {
+    EventScreen()
 }
+
+
